@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import ' screens/EventScreen.dart';
-import ' screens/NoteScreen.dart';
-import ' screens/TaskScreen.dart';
-import ' screens/home.dart';
+import 'screens/EventScreen.dart';
+import 'screens/NoteScreen.dart';
+import 'screens/TaskScreen.dart';
+import 'screens/home.dart';
 
 class AppNavigation extends StatefulWidget {
   @override
@@ -51,7 +51,8 @@ class _AppNavigationState extends State<AppNavigation> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.amber[800], // Màu khi được chọn
+        unselectedItemColor: Colors.blueGrey, // Màu khi chưa được chọn
         onTap: _onItemTapped,
       ),
     );

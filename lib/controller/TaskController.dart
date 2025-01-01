@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:get/get.dart';
 import '../databasehelper/db.dart';
+import '../helper/NotificationHelper.dart';
 import '../models/task.dart';
 import '../models/category.dart';
 
@@ -12,6 +14,7 @@ class TaskController extends GetxController {
     super.onInit();
     loadTasks();
     loadCategories();
+    startDeadlineCheck(); // Bắt đầu kiểm tra deadline
   }
 
   Future<void> loadTasks() async {
@@ -58,5 +61,23 @@ class TaskController extends GetxController {
     return tasks
         .where((task) => !task.isCompleted && task.deadline.isBefore(now))
         .toList();
+  }
+
+  void startDeadlineCheck() {
+    Timer.periodic(Duration(minutes: 5), (timer) async {
+      final now = DateTime.now();
+      final soonDeadlineTasks = tasks.where((task) {
+        final timeLeft = task.deadline.difference(now).inHours;
+        return !task.isCompleted && timeLeft <= 24 && timeLeft > 0;
+      }).toList();
+
+      for (var task in soonDeadlineTasks) {
+        await NotificationHelper.showNotification(
+          id: task.id!,
+          title: "Task sắp đến hạn!",
+          body: "Task '${task.title}' sẽ hết hạn lúc ${task.deadline}.",
+        );
+      }
+    });
   }
 }

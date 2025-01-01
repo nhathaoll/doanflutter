@@ -14,7 +14,12 @@ class TaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tasks'),
+        title: const Text(
+          'Tasks',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.teal,
         actions: [
           IconButton(
             icon: const Icon(Icons.category),
@@ -31,17 +36,23 @@ class TaskScreen extends StatelessWidget {
       body: Obx(
         () {
           if (categoryController.categories.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           if (taskController.tasks.isEmpty) {
             return const Center(
-              child: Text('No tasks available'),
+              child: Text(
+                'No tasks available',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
             );
           }
 
           return ListView(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
             children: [
               _buildExpandableContainer(
                 title: 'Missing Tasks',
@@ -59,19 +70,29 @@ class TaskScreen extends StatelessWidget {
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Card(
-                        elevation: 4.0,
-                        margin: EdgeInsets.zero,
-                        shape: RoundedRectangleBorder(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(12.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              blurRadius: 4.0,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: ExpansionTile(
-                          collapsedBackgroundColor: Colors.white,
+                          collapsedBackgroundColor: Colors.teal[50],
+                          backgroundColor: Colors.white,
                           tilePadding:
                               const EdgeInsets.symmetric(horizontal: 16.0),
                           title: Text(
                             category.name,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
                           ),
                           children: tasks.isEmpty
                               ? [
@@ -86,13 +107,22 @@ class TaskScreen extends StatelessWidget {
                               : tasks.map(
                                   (task) {
                                     return Container(
-                                      color: _getPriorityColor(task.priority),
+                                      decoration: BoxDecoration(
+                                        color: _getPriorityColor(task.priority),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
+                                          vertical: 8.0, horizontal: 12.0),
                                       child: ListTile(
-                                        title: Text(task.title),
-                                        subtitle:
-                                            Text('Deadline: ${task.deadline}'),
+                                        title: Text(
+                                          task.title,
+                                          style: const TextStyle(fontSize: 16),
+                                        ),
+                                        subtitle: Text(
+                                          'Deadline: ${task.deadline}',
+                                          style: const TextStyle(fontSize: 14),
+                                        ),
                                         trailing: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
@@ -116,8 +146,10 @@ class TaskScreen extends StatelessWidget {
                                               },
                                             ),
                                             IconButton(
-                                              icon: const Icon(Icons.delete,
-                                                  color: Colors.red),
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.red,
+                                              ),
                                               onPressed: () {
                                                 taskController
                                                     .deleteTask(task.id!);
@@ -154,6 +186,7 @@ class TaskScreen extends StatelessWidget {
           );
         },
         tooltip: 'Add Task',
+        backgroundColor: Colors.teal,
         child: const Icon(Icons.add),
       ),
     );
@@ -180,7 +213,7 @@ class TaskScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
-        color: Colors.grey[100],
+        color: Colors.teal[50],
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
@@ -191,6 +224,7 @@ class TaskScreen extends StatelessWidget {
         ],
       ),
       child: ExpansionTile(
+        backgroundColor: Colors.white,
         title: Text(
           title,
           style: const TextStyle(
@@ -222,12 +256,20 @@ class TaskScreen extends StatelessWidget {
       children: tasks.map((task) {
         final category = categoryController.getCategoryById(task.categoryId);
         return Container(
-          color: _getPriorityColor(task.priority),
+          decoration: BoxDecoration(
+            color: _getPriorityColor(task.priority),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
           margin: const EdgeInsets.symmetric(vertical: 4.0),
           child: ListTile(
-            title: Text(task.title),
+            title: Text(
+              task.title,
+              style: const TextStyle(fontSize: 16),
+            ),
             subtitle: Text(
-                'Category: ${category?.name ?? 'Unknown'}\nDeadline: ${task.deadline}'),
+              'Category: ${category?.name ?? 'Unknown'}\nDeadline: ${task.deadline}',
+              style: const TextStyle(fontSize: 14),
+            ),
             trailing: IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () {
