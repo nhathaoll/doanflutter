@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../controller/NoteController.dart';
 import '../models/note.dart';
 import 'AddNoteScreen.dart';
+import 'NoteDetailScreen.dart';
 
 class NoteScreen extends StatelessWidget {
   final NoteController noteController = Get.put(NoteController());
@@ -57,6 +58,7 @@ class NoteScreen extends StatelessWidget {
                   ),
                 ),
                 children: notes.map((note) {
+                  final firstLine = note.content.split('\n').first;
                   return Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
                     padding: EdgeInsets.all(16.0),
@@ -85,8 +87,11 @@ class NoteScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 8.0),
                         Text(
-                          note.content,
+                          firstLine,
                           style: TextStyle(fontSize: 16, color: Colors.black87),
+                          maxLines: 1, // Hiển thị tối đa 1 dòng
+                          overflow: TextOverflow
+                              .ellipsis, // Thêm dấu "..." nếu bị cắt
                         ),
                         SizedBox(height: 8.0),
                         Text(
@@ -101,6 +106,18 @@ class NoteScreen extends StatelessWidget {
                               icon: Icon(Icons.delete, color: Colors.redAccent),
                               onPressed: () {
                                 noteController.deleteNote(note.id!);
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.info, color: Colors.blue),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NoteDetailScreen(note: note),
+                                  ),
+                                );
                               },
                             ),
                           ],
