@@ -59,6 +59,7 @@ class DatabaseHelper {
         content TEXT NOT NULL,
         createdDate TEXT NOT NULL,
         taskId INTEGER,
+        imagePath TEXT,
         FOREIGN KEY (taskId) REFERENCES task (id)
       )
     ''');

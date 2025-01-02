@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+import 'dart:io';
 import '../controller/NoteController.dart';
 import '../models/note.dart';
 import 'AddNoteScreen.dart';
@@ -89,19 +90,35 @@ class NoteScreen extends StatelessWidget {
                         Text(
                           firstLine,
                           style: TextStyle(fontSize: 16, color: Colors.black87),
-                          maxLines: 1, // Hiển thị tối đa 1 dòng
-                          overflow: TextOverflow
-                              .ellipsis, // Thêm dấu "..." nếu bị cắt
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 8.0),
-                        Text(
-                          'Created Date: ${DateFormat('yyyy-MM-dd').format(note.createdDate)}',
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
-                        ),
+                        // Image section
+                        if (note.imagePath != null && note.imagePath.isNotEmpty)
+                          Image.file(
+                            File(note.imagePath),
+                            height: 150,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
                         SizedBox(height: 8.0),
+                        // Edit and Delete buttons
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
+                            IconButton(
+                              icon: Icon(Icons.edit, color: Colors.blue),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        AddNoteScreen(note: note),
+                                  ),
+                                );
+                              },
+                            ),
                             IconButton(
                               icon: Icon(Icons.delete, color: Colors.redAccent),
                               onPressed: () {

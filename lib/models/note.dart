@@ -4,6 +4,7 @@ class Note {
   final String content; // Nội dung
   final DateTime createdDate; // Ngày tạo
   final int? taskId; // Liên kết với công việc (nếu có)
+  final String imagePath;
 
   Note({
     this.id,
@@ -11,6 +12,7 @@ class Note {
     required this.content,
     required this.createdDate,
     this.taskId,
+    required this.imagePath,
   });
 
   factory Note.fromMap(Map<String, dynamic> map) {
@@ -20,6 +22,7 @@ class Note {
       content: map['content'],
       createdDate: DateTime.parse(map['createdDate']),
       taskId: map['taskId'],
+      imagePath: map['imagePath'],
     );
   }
 
@@ -30,6 +33,7 @@ class Note {
       'content': content,
       'createdDate': createdDate.toIso8601String(),
       'taskId': taskId,
+      'imagePath': imagePath,
     };
   }
 }
