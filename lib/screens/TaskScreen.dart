@@ -50,6 +50,9 @@ class TaskScreen extends StatelessWidget {
             );
           }
 
+          final missingTasks = taskController.getUnfinishedTasks();
+          final missingTaskIds = missingTasks.map((task) => task.id).toSet();
+
           return ListView(
             padding:
                 const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
@@ -57,7 +60,7 @@ class TaskScreen extends StatelessWidget {
               _buildExpandableContainer(
                 title: 'Missing Tasks',
                 child: _buildTaskSection(
-                  taskController.getUnfinishedTasks(),
+                  missingTasks,
                   'No missing tasks',
                 ),
               ),
@@ -65,8 +68,10 @@ class TaskScreen extends StatelessWidget {
                 title: 'Tasks by Category',
                 child: Column(
                   children: categoryController.categories.map((category) {
-                    final tasks =
-                        taskController.getTasksByCategory(category.id!);
+                    final tasks = taskController
+                        .getTasksByCategory(category.id!)
+                        .where((task) => !missingTaskIds.contains(task.id))
+                        .toList();
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -218,7 +223,7 @@ class TaskScreen extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black26,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
             blurRadius: 4.0,
           ),
         ],

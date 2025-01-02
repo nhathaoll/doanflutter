@@ -4,7 +4,6 @@
 
 import FlutterMacOS
 import Foundation
-
 import flutter_local_notifications
 import geolocator_apple
 import shared_preferences_foundation

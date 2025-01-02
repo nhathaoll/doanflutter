@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../databasehelper/SessionManager.dart';
 import '../databasehelper/db.dart';
 import 'SignUpScreen.dart';
-import 'home.dart';
 
 class LoginPage extends StatefulWidget {
   @override
