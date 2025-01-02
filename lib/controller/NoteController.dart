@@ -17,13 +17,11 @@ class NoteController extends GetxController {
   }
 
   Future<void> addNoteWithDetails(Note note) async {
-    final newNote = Note(
-      title: note.title,
-      content: note.content,
-      createdDate: DateTime.now(), // Set to current date if not provided
-      taskId: note.taskId,
-    );
-    await DatabaseHelper().insertNote(newNote);
+    if (note.id == null) {
+      await DatabaseHelper().insertNote(note);
+    } else {
+      await DatabaseHelper().updateNote(note);
+    }
     loadNotes();
   }
 

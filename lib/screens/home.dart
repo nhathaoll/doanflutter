@@ -3,8 +3,20 @@ import 'package:da_fllutter/screens/loginScreen.dart';
 import 'package:da_fllutter/services/%20weather_service.dart';
 import 'package:da_fllutter/widgets/%20weather_card.dart';
 import 'package:flutter/material.dart';
+import 'dart:core';
 
 class HomePage extends StatelessWidget {
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good morning';
+    } else if (hour < 18) {
+      return 'Good afternoon';
+    } else {
+      return 'Good evening';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = SessionManager().currentUser;
@@ -14,7 +26,7 @@ class HomePage extends StatelessWidget {
         title: Text('Home',
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.lightBlue,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -59,7 +71,7 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(width: 12.0),
                 Text(
-                  'Welcome, ${user?.name ?? 'User'}!',
+                  '${_getGreeting()}, ${user?.name ?? 'User'}!',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
