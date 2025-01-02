@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
 import '../controller/NoteController.dart';
 import '../models/note.dart';
 import 'AddNoteScreen.dart';
@@ -93,15 +92,6 @@ class NoteScreen extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        SizedBox(height: 8.0),
-                        // Image section
-                        if (note.imagePath != null && note.imagePath.isNotEmpty)
-                          Image.file(
-                            File(note.imagePath),
-                            height: 150,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
                         SizedBox(height: 8.0),
                         // Edit and Delete buttons
                         Row(
