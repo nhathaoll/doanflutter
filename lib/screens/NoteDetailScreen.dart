@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:io';
 import '../models/note.dart';
 
 class NoteDetailScreen extends StatelessWidget {
@@ -80,6 +81,15 @@ class NoteDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 16),
+              // Image section
+              if (note.imagePath != null && note.imagePath.isNotEmpty)
+                Image.file(
+                  File(note.imagePath),
+                  height: 150,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               SizedBox(height: 32),
               // Back Button
               Align(

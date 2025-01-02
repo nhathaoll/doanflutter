@@ -30,7 +30,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       _titleController.text = widget.note!.title;
       _contentController.text = widget.note!.content;
       if (widget.note!.imagePath != null) {
-        _selectedImage = File(widget.note!.imagePath!);
+        _selectedImage = File(widget.note!.imagePath);
       }
     }
   }
@@ -62,7 +62,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Add a New Note',
+              widget.note == null ? 'Add a New Note' : 'Edit Note',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -146,9 +146,10 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   }
 
                   final newNote = Note(
+                    id: widget.note?.id,
                     title: _titleController.text,
                     content: _contentController.text,
-                    createdDate: DateTime.now(),
+                    createdDate: widget.note?.createdDate ?? DateTime.now(),
                     imagePath: _selectedImage?.path ?? '',
                   );
                   await noteController.addNoteWithDetails(newNote);
