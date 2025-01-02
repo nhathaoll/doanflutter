@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
             return CircularProgressIndicator();
           } else {
             return snapshot.data == true ? AppNavigation() : LoginPage();
+            // return AppNavigation();
           }
         },
       ),
