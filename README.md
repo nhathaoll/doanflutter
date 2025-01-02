@@ -16,4 +16,5 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 
-Vô làm nhớ chạy lệnh git fetch origin, xong chạy lệnh git merge origin/main
+- Vô làm nhớ chạy lệnh git fetch origin, xong chạy lệnh git merge origin/main
+- Nhớ kiểm tra mình đang ở branch nào nha mấy má
