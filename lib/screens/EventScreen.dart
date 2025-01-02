@@ -150,6 +150,19 @@ class _EventScreenState extends State<EventScreen> {
     );
   }
 
+  void _scheduleNotification(Event event) async {
+    final now = DateTime.now();
+    final timeLeft = event.dateTime.difference(now).inMinutes;
+    if (timeLeft > 0 && timeLeft <= 1440) {
+      // Chỉ tạo thông báo trong vòng 24 giờ tới
+      await NotificationHelper.showNotification(
+        id: event.dateTime.hashCode,
+        title: 'Event Reminder',
+        body: event.title,
+      );
+    }
+  }
+
   void _showEditEventDialog(BuildContext context, Event event) {
     final TextEditingController titleController =
         TextEditingController(text: event.title);
@@ -199,14 +212,6 @@ class _EventScreenState extends State<EventScreen> {
           ],
         );
       },
-    );
-  }
-
-  void _scheduleNotification(Event event) async {
-    await NotificationHelper.showNotification(
-      id: event.dateTime.hashCode,
-      title: 'Event Reminder',
-      body: event.title,
     );
   }
 }

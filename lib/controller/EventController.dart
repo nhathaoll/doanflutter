@@ -6,6 +6,7 @@ import 'dart:async';
 
 class EventController extends GetxController {
   var events = <Event>[].obs;
+  Timer? _eventCheckTimer;
 
   @override
   void onInit() {
@@ -45,21 +46,31 @@ class EventController extends GetxController {
   }
 
   void startEventCheck() {
-    Timer.periodic(Duration(hours: 1), (timer) async {
-      final now = DateTime.now();
-      final upcomingEvents = events.where((event) {
-        final timeLeft = event.dateTime.difference(now).inHours;
-        return !event.isCompleted && timeLeft <= 24 && timeLeft > 0;
-      }).toList();
+    _eventCheckTimer?.cancel(); // Hủy nếu đã tồn tại
+    _eventCheckTimer = Timer.periodic(
+      Duration(hours: 1),
+      (timer) async {
+        final now = DateTime.now();
+        final upcomingEvents = events.where((event) {
+          final timeLeft = event.dateTime.difference(now).inHours;
+          return !event.isCompleted && timeLeft <= 24 && timeLeft > 0;
+        }).toList();
 
-      for (var event in upcomingEvents) {
-        await NotificationHelper.showNotification(
-          id: event.id!,
-          title: "Upcoming Event!",
-          body:
-              "Event '${event.title}' is happening soon at ${event.dateTime}.",
-        );
-      }
-    });
+        for (var event in upcomingEvents) {
+          await NotificationHelper.showNotification(
+            id: event.id!,
+            title: "Upcoming Event!",
+            body:
+                "Event '${event.title}' is happening soon at ${event.dateTime}.",
+          );
+        }
+      },
+    );
+  }
+
+  @override
+  void onClose() {
+    _eventCheckTimer?.cancel(); // Dọn dẹp khi Controller bị đóng
+    super.onClose();
   }
 }
