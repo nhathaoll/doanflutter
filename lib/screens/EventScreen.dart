@@ -76,12 +76,26 @@ class _EventScreenState extends State<EventScreen> {
                   return ListTile(
                     title: Text(event.title),
                     subtitle: Text(event.description),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        eventController.deleteEvent(event.id!);
+                      },
+                    ),
+                    onTap: () {
+                      _showEditEventDialog(context, event);
+                    },
                   );
                 },
               );
             }),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showAddEventDialog(context, _selectedDay),
+        child: Icon(Icons.add),
+        backgroundColor: Colors.indigo,
       ),
     );
   }
@@ -129,6 +143,58 @@ class _EventScreenState extends State<EventScreen> {
                 Navigator.of(context).pop();
               },
               child: Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showEditEventDialog(BuildContext context, Event event) {
+    final TextEditingController titleController =
+        TextEditingController(text: event.title);
+    final TextEditingController descriptionController =
+        TextEditingController(text: event.description);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edit Event'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(labelText: 'Title'),
+              ),
+              TextField(
+                controller: descriptionController,
+                decoration: InputDecoration(labelText: 'Description'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                final updatedEvent = Event(
+                  id: event.id,
+                  title: titleController.text,
+                  description: descriptionController.text,
+                  dateTime: event.dateTime,
+                  categoryId: event.categoryId,
+                  isCompleted: event.isCompleted,
+                );
+                eventController.updateEvent(updatedEvent);
+                Navigator.of(context).pop();
+              },
+              child: Text('Update'),
             ),
           ],
         );
