@@ -10,16 +10,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   Future<void> _login() async {
-    final email = _emailController.text;
+    final username = _usernameController.text;
     final password = _passwordController.text;
 
-    final user = await DatabaseHelper().authenticateUser(email, password);
+    final user = await DatabaseHelper().authenticateUser(username, password);
     if (user != null) {
-      SessionManager().login(user);
+      await SessionManager().login(user);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => AppNavigation()),
@@ -38,8 +38,8 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              controller: _usernameController,
+              decoration: InputDecoration(labelText: 'Username'),
             ),
             TextField(
               controller: _passwordController,

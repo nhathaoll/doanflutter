@@ -1,3 +1,4 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 
 class SessionManager {
@@ -9,13 +10,20 @@ class SessionManager {
 
   User? get currentUser => _currentUser;
 
-  void login(User user) {
+  Future<void> login(User user) async {
     _currentUser = user;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', true);
   }
 
-  void logout() {
+  Future<void> logout() async {
     _currentUser = null;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', false);
   }
 
-  bool get isLoggedIn => _currentUser != null;
+  Future<bool> get isLoggedIn async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isLoggedIn') ?? false;
+  }
 }

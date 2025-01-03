@@ -38,7 +38,6 @@ class _EventScreenState extends State<EventScreen> {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay;
               });
-              _showAddEventDialog(context, selectedDay);
             },
             calendarBuilders: CalendarBuilders(
               defaultBuilder: (context, day, focusedDay) {
