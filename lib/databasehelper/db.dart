@@ -1,6 +1,5 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
 import '../models/category.dart';
 import '../models/event.dart';
 import '../models/note.dart';
@@ -208,6 +207,21 @@ class DatabaseHelper {
       ...user.toMap(),
       'password': password,
     });
+  }
+
+  Future<User?> getUserByEmail(String email) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'user',
+      where: 'email = ?',
+      whereArgs: [email],
+    );
+
+    if (maps.isNotEmpty) {
+      return User.fromMap(maps.first);
+    } else {
+      return null;
+    }
   }
 
   // Authenticate user
